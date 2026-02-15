@@ -8,7 +8,8 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/validate": {"origins": "*"}}, supports_credentials=True)
+
 
 # Rate limiting (10 requests per minute per IP)
 limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
@@ -95,6 +96,11 @@ def validate_input():
     response["sanitizedOutput"] = sanitized
 
     return jsonify(response), 200
+
+@app.route('/validate', methods=['OPTIONS'])
+def handle_options():
+    return '', 200
+
 
 
 if __name__ == '__main__':
