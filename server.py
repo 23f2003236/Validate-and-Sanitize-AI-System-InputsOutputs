@@ -3,9 +3,12 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import re
 import html
-import os
+from flask_cors import CORS
+
+
 
 app = Flask(__name__)
+CORS(app)
 
 # Rate limiting (10 requests per minute per IP)
 limiter = Limiter(get_remote_address, app=app, default_limits=["10 per minute"])
