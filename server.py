@@ -8,7 +8,12 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/validate": {"origins": "*"}}, supports_credentials=True)
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
+)
 
 
 # Rate limiting (10 requests per minute per IP)
@@ -97,9 +102,7 @@ def validate_input():
 
     return jsonify(response), 200
 
-@app.route('/validate', methods=['OPTIONS'])
-def handle_options():
-    return '', 200
+
 
 
 
